@@ -427,7 +427,7 @@ app.get('/api/room/:id', (req, res) => {
 // Start server
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
-    console.log(`Baloot Game Server running on port ${PORT}`);
+    console.log(`srv-d8g0rnv40ujc73bi4dcg${PORT}`);
     console.log(`WebSocket: ws://localhost:${PORT}`);
     console.log(`HTTP API: http://localhost:${PORT}`);
 });
