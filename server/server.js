@@ -395,9 +395,25 @@ function handleDisconnect(ws) {
             const shouldDelete = room.removeClient(ws);
             if (shouldDelete) {
                 rooms.delete(playerInfo.roomId);
+                console.log(`Room deleted: ${playerInfo.roomId}`);
+            } else {
+                room.broadcast({
+                    type: 'PLAYER_LEFT',
+                    data: {
+                        playerId: playerInfo.playerId,
+                        playerCount: room.clients.size
+                    }
+                });
             }
         }
         players.delete(ws);
+    }
+    
+    // Clean up WebSocket
+    try {
+        ws.terminate();
+    } catch (e) {
+        // Already closed
     }
 }
 
