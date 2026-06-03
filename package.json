@@ -1,0 +1,43 @@
+{
+  "name": "baloot-game",
+  "version": "1.0.0",
+  "description": "لعبة بلوت رقمية تحاكي كملنا",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint server/ client/js/",
+    "lint:fix": "eslint server/ client/js/ --fix"
+  },
+  "dependencies": {
+    "ws": "^8.14.2",
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "eslint": "^8.54.0"
+  },
+  "keywords": [
+    "baloot",
+    "card-game",
+    "multiplayer",
+    "websocket",
+    "arabic-game",
+    "gulf-game"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/baloot-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/baloot-game/issues"
+  },
+  "homepage": "https://github.com/yourusername/baloot-game#readme"
+}

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  baloot-game:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - baloot-network
+
+  # Optional: Redis for session management
+  # redis:
+  #   image: redis:alpine
+  #   ports:
+  #     - "6379:6379"
+  #   networks:
+  #     - baloot-network
+
+networks:
+  baloot-network:
+    driver: bridge
