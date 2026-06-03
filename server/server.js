@@ -10,7 +10,13 @@ const server = http.createServer(app);
 // Serve static files
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(express.json());
+// Serve static files
+app.use(express.static(path.join(__dirname, '../client')));
 
+// Serve index.html for root
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/index.html'));
+});
 // Health check
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: Date.now() });
