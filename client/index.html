@@ -3,170 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بلوت - لعبة كملنا</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <title>بلوت</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #0a1f0f 0%, #1a5f2a 100%);
+            color: #f0f0f0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .logo { font-size: 4rem; margin-bottom: 1rem; }
+        h1 { font-size: 3rem; color: #d4af37; margin-bottom: 0.5rem; }
+        .subtitle { color: #888; margin-bottom: 2rem; }
+        .btn {
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #2d8b3e, #1a5f2a);
+            color: white;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .status {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .connected { color: #27ae60; }
+        .disconnected { color: #c0392b; }
+    </style>
 </head>
 <body>
-    <div id="app">
-        <!-- شاشة البداية -->
-        <div id="start-screen" class="screen active">
-            <div class="logo-container">
-                <div class="logo">
-                    <span class="logo-icon">🃏</span>
-                    <h1>بلوت</h1>
-                    <p class="subtitle">لعبة كملنا الرقمية</p>
-                </div>
-            </div>
-
-            <div class="menu-buttons">
-                <button class="btn btn-primary" onclick="game.startSolo()">
-                    <span class="icon">🎮</span>
-                    <span>لعب فردي (ضد البوتات)</span>
-                </button>
-                <button class="btn btn-secondary" onclick="game.showMultiplayerMenu()">
-                    <span class="icon">🌐</span>
-                    <span>لعب جماعي أونلاين</span>
-                </button>
-                <button class="btn btn-vip" onclick="game.showVIPMenu()">
-                    <span class="icon">👑</span>
-                    <span>جلسة VIP</span>
-                </button>
-            </div>
-
-            <div class="game-info">
-                <div class="info-card">
-                    <h3>📋 قوانين اللعبة</h3>
-                    <ul>
-                        <li>اللعبة لـ 4 لاعبين (فريقين)</li>
-                        <li>الهدف: الوصول لـ 152 نقطة</li>
-                        <li>أنواع المشتري: صن، حكم، أول، ثاني</li>
-                        <li>المشاريع: سرا، خمسين، مية، بلوت</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- شاشة اللعب -->
-        <div id="game-screen" class="screen">
-            <!-- لوحة النقاط -->
-            <div id="score-board" class="score-board">
-                <div class="team team-0">
-                    <div class="team-name">فريقك</div>
-                    <div class="score" id="team0-score">0</div>
-                    <div class="round-score" id="team0-round">0</div>
-                </div>
-                <div class="game-info-center">
-                    <div class="round-info">الجولة <span id="round-number">1</span></div>
-                    <div class="buyer-type" id="buyer-type">-</div>
-                    <div class="trump-suit" id="trump-suit">-</div>
-                </div>
-                <div class="team team-1">
-                    <div class="team-name">الخصم</div>
-                    <div class="score" id="team1-score">0</div>
-                    <div class="round-score" id="team1-round">0</div>
-                </div>
-            </div>
-
-            <!-- الطاولة -->
-            <div id="table" class="table">
-                <!-- مقاعد اللاعبين -->
-                <div class="seat top" id="seat-2">
-                    <div class="player-info">
-                        <div class="player-avatar">🤖</div>
-                        <div class="player-name" id="player2-name">Bot 2</div>
-                        <div class="player-cards-count" id="player2-count">8</div>
-                    </div>
-                </div>
-
-                <div class="seat right" id="seat-1">
-                    <div class="player-info">
-                        <div class="player-avatar">🤖</div>
-                        <div class="player-name" id="player1-name">Bot 1</div>
-                        <div class="player-cards-count" id="player1-count">8</div>
-                    </div>
-                </div>
-
-                <div class="seat left" id="seat-3">
-                    <div class="player-info">
-                        <div class="player-avatar">🤖</div>
-                        <div class="player-name" id="player3-name">Bot 3</div>
-                        <div class="player-cards-count" id="player3-count">8</div>
-                    </div>
-                </div>
-
-                <!-- منطقة اللعب المركزية -->
-                <div id="play-area" class="play-area">
-                    <div class="card-slot" id="slot-0" data-position="bottom"></div>
-                    <div class="card-slot" id="slot-1" data-position="right"></div>
-                    <div class="card-slot" id="slot-2" data-position="top"></div>
-                    <div class="card-slot" id="slot-3" data-position="left"></div>
-                </div>
-
-                <!-- ورقة المشتري -->
-                <div id="buyer-card-display" class="buyer-card hidden">
-                    <div class="buyer-label">المشتري</div>
-                    <div class="card" id="buyer-card-visual"></div>
-                </div>
-            </div>
-
-            <!-- يد اللاعب -->
-            <div id="player-hand" class="player-hand"></div>
-
-            <!-- أزرار الإجراءات -->
-            <div id="action-panel" class="action-panel hidden">
-                <div class="bid-options" id="bid-options">
-                    <button class="btn btn-bid" data-bid="sun">☀️ صن</button>
-                    <button class="btn btn-bid" data-bid="hukum">⚫ حكم</button>
-                    <button class="btn btn-bid" data-bid="first">1️⃣ أول</button>
-                    <button class="btn btn-pass">🚫 تمرير</button>
-                </div>
-            </div>
-
-            <!-- نظام الدردشة السريعة -->
-            <div id="quick-chat" class="quick-chat">
-                <button class="chat-btn" data-emoji="🔥" title="نار!">🔥</button>
-                <button class="chat-btn" data-emoji="😎" title="ثقة">😎</button>
-                <button class="chat-btn" data-emoji="😱" title="صدمة">😱</button>
-                <button class="chat-btn" data-emoji="👏" title="تصفيق">👏</button>
-                <button class="chat-btn" data-emoji="🤔" title="تفكير">🤔</button>
-                <button class="chat-btn" data-emoji="💪" title="قوة">💪</button>
-                <button class="chat-btn" data-message="يلا يا بطل!">يلا يا بطل!</button>
-                <button class="chat-btn" data-message="حظ أوفر">حظ أوفر</button>
-                <button class="chat-btn" data-message="مشروع!">مشروع!</button>
-            </div>
-
-            <!-- إشعارات -->
-            <div id="notifications" class="notifications"></div>
-
-            <!-- لوحة تفاصيل النقاط -->
-            <div id="score-details" class="score-details hidden">
-                <div class="score-modal">
-                    <h3>📊 تفاصيل الجولة</h3>
-                    <div class="score-breakdown" id="score-breakdown"></div>
-                    <button class="btn btn-close" onclick="game.closeScoreDetails()">إغلاق</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- شاشة النهاية -->
-        <div id="end-screen" class="screen">
-            <div class="end-game-container">
-                <div class="winner-announcement" id="winner-announcement"></div>
-                <div class="final-scores" id="final-scores"></div>
-                <div class="end-buttons">
-                    <button class="btn btn-primary" onclick="game.restart()">لعبة جديدة</button>
-                    <button class="btn btn-secondary" onclick="game.backToMenu()">القائمة الرئيسية</button>
-                </div>
-            </div>
-        </div>
+    <div class="logo">🃏</div>
+    <h1>بلوت</h1>
+    <p class="subtitle">لعبة كملنا الرقمية</p>
+    
+    <div>
+        <button class="btn btn-primary" onclick="startGame()">🎮 لعب فردي</button>
+        <button class="btn btn-primary" onclick="joinGame()">🌐 لعب جماعي</button>
+    </div>
+    
+    <div class="status" id="status">
+        جاري الاتصال بالخادم...
     </div>
 
-    <!-- Scripts -->
-    <script src="js/game/CardRenderer.js"></script>
-    <script src="js/game/GameRenderer.js"></script>
-    <script src="js/game/UIManager.js"></script>
-    <script src="js/game/GameClient.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+        const ws = new WebSocket('wss://' + window.location.host);
+        
+        ws.onopen = () => {
+            document.getElementById('status').innerHTML = '<span class="connected">✅ متصل</span>';
+            ws.send(JSON.stringify({type: 'CREATE_ROOM'}));
+        };
+        
+        ws.onclose = () => {
+            document.getElementById('status').innerHTML = '<span class="disconnected">❌ غير متصل</span>';
+        };
+        
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log('Received:', data);
+        };
+        
+        function startGame() {
+            alert('جاري التحميل...');
+        }
+        
+        function joinGame() {
+            const roomId = prompt('أدخل رمز الغرفة:');
+            if (roomId) {
+                ws.send(JSON.stringify({type: 'JOIN_ROOM', roomId}));
+            }
+        }
+    </script>
 </body>
 </html>
